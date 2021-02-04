@@ -15,9 +15,8 @@
 
 #if VAST_ENABLE_ARROW
 
-#  include "vast/arrow_table_slice_builder.hpp"
-
 #  include "vast/arrow_table_slice.hpp"
+#  include "vast/arrow_table_slice_builder.hpp"
 #  include "vast/detail/byte_swap.hpp"
 #  include "vast/detail/narrow.hpp"
 #  include "vast/detail/overload.hpp"
@@ -61,17 +60,17 @@ struct primitive_column_builder_trait_base
 template <class T>
 struct column_builder_trait;
 
-#define PRIMITIVE_COLUMN_BUILDER_TRAIT(VastType, ArrowType)                    \
-  template <>                                                                  \
-  struct column_builder_trait<VastType>                                        \
-    : primitive_column_builder_trait_base<VastType, ArrowType> {}
+#  define PRIMITIVE_COLUMN_BUILDER_TRAIT(VastType, ArrowType)                  \
+    template <>                                                                \
+    struct column_builder_trait<VastType>                                      \
+      : primitive_column_builder_trait_base<VastType, ArrowType> {}
 
 PRIMITIVE_COLUMN_BUILDER_TRAIT(bool_type, arrow::BooleanType);
 PRIMITIVE_COLUMN_BUILDER_TRAIT(integer_type, arrow::Int64Type);
 PRIMITIVE_COLUMN_BUILDER_TRAIT(count_type, arrow::UInt64Type);
 PRIMITIVE_COLUMN_BUILDER_TRAIT(real_type, arrow::DoubleType);
 
-#undef PRIMITIVE_COLUMN_BUILDER_TRAIT
+#  undef PRIMITIVE_COLUMN_BUILDER_TRAIT
 
 template <>
 struct column_builder_trait<time_type>
@@ -455,19 +454,28 @@ table_slice arrow_table_slice_builder::finish(
   // of fields in the layout.
   VAST_ASSERT(column_ == 0);
   // Pack layout.
-  auto layout_buffer
-    = serialized_layout.empty()
-        ? *fbs::serialize_bytes(builder_, layout())
-        : builder_.CreateVector(
-          reinterpret_cast<const unsigned char*>(serialized_layout.data()),
-          serialized_layout.size());
+  auto use_layout = [&](const auto& buf) {
+    return builder_.CreateVector(
+      reinterpret_cast<const unsigned char*>(buf.data()), buf.size());
+  };
+  auto gen_layout = [&]() {
+    caf::binary_serializer source(nullptr, serialized_layout_cache_);
+    auto error = source(layout());
+    VAST_ASSERT(error == caf::no_error);
+    return use_layout(serialized_layout_cache_);
+  };
+  auto layout_buffer = !serialized_layout.empty()
+                         ? use_layout(serialized_layout)
+                         : (!serialized_layout_cache_.empty()
+                              ? use_layout(serialized_layout_cache_)
+                              : gen_layout());
   // Pack schema.
-#if ARROW_VERSION_MAJOR >= 2
+#  if ARROW_VERSION_MAJOR >= 2
   auto flat_schema = arrow::ipc::SerializeSchema(*schema_).ValueOrDie();
-#else
+#  else
   auto flat_schema
     = arrow::ipc::SerializeSchema(*schema_, nullptr).ValueOrDie();
-#endif
+#  endif
   auto schema_buffer
     = builder_.CreateVector(flat_schema->data(), flat_schema->size());
   // Pack record batch.
