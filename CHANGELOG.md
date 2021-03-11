@@ -9,9 +9,16 @@ This changelog documents all notable user-facing changes of VAST.
 ### 🧬 Experimental Features
 ### 🎁 Features
 ### 🐞 Bug Fixes
+### 🚀 Performance Improvements
 -->
 
 ## Unreleased
+
+- 🚀 The time to first response of queries that compare a concept to a string
+  has been reduced noticably. In the particular case of large databases
+  containing many different event types and queries with a high selectivity we
+  were able to measure speedups of up to 5x.
+  [#1433](https://github.com/tenzir/vast/pull/1433)
 
 - 🐞 Data that was ingested before the deprecation of the `#timestamp`
   attribute wasn't exported correctly with newer versions. This is now
