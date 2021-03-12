@@ -1,0 +1,55 @@
+{
+  "name": "API_fuzz_test-138909ad",
+  "displayName": "export_json",
+  "maxRunTime": "3600s",
+  "fuzzTargets": [
+    "API_fuzz_test-a4849f77"
+  ],
+  "fuzzerRunConfigurations": [
+    {
+      "engine": "LIBFUZZER",
+      "sanitizer": "ADDRESS",
+      "numberOfJobs": 1,
+      "environment": [
+        "ASAN_OPTIONS=halt_on_error=0 allocator_may_return_null=1"
+      ]
+    },
+    {
+      "engine": "LIBFUZZER",
+      "sanitizer": "ADDRESS",
+      "numberOfJobs": 1,
+      "environment": [
+        "ASAN_OPTIONS=halt_on_error=0 allocator_may_return_null=1"
+      ],
+      "engineArguments": [
+        "-use_value_profile=1"
+      ]
+    }
+  ],
+  "configuredTargets": [
+    {
+      "fuzzTarget": "API_fuzz_test-a4849f77",
+      "fuzzerRunConfigurations": [
+        {
+          "engine": "LIBFUZZER",
+          "sanitizer": "ADDRESS",
+          "numberOfJobs": 1,
+          "environment": [
+            "ASAN_OPTIONS=halt_on_error=0 allocator_may_return_null=1"
+          ]
+        },
+        {
+          "engine": "LIBFUZZER",
+          "sanitizer": "ADDRESS",
+          "numberOfJobs": 1,
+          "environment": [
+            "ASAN_OPTIONS=halt_on_error=0 allocator_may_return_null=1"
+          ],
+          "engineArguments": [
+            "-use_value_profile=1"
+          ]
+        }
+      ]
+    }
+  ]
+}
