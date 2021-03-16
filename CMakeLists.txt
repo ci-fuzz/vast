@@ -8,13 +8,13 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # Helper utility for retrieving the project version from 'git-describe', that is
 # bundled with VAST.
 set(VAST_VERSION_FALLBACK "2021.02.24-0-")
-include(VASTGitVersion)
+#
 
 # Create the VAST project.
 project(
   VAST
-  VERSION
-    ${VAST_VERSION_MAJOR}.${VAST_VERSION_MINOR}.${VAST_VERSION_PATCH}.${VAST_VERSION_TWEAK}
+  VERSION 2021.02.24
+#
   DESCRIPTION "Visibility Across Space and Time"
   LANGUAGES C CXX)
 
