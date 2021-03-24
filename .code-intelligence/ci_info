@@ -1,7 +1,7 @@
 {
   "name": "projects/vast-fuzz-d131834c",
   "displayName": "vast-fuzz",
-  "buildScriptContent": "./configure \n--build-type=Debug \n--log-level=INFO \n--generator=Ninja\ncmake --build build",
+  "buildScriptContent": "./configure \\\n--build-type=Debug \\\n--log-level=INFO \\\n--generator=Ninja\ncmake --build build\n",
   "details": {
 
   },
