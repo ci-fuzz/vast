@@ -1,7 +1,7 @@
 {
   "name": "API_fuzz_test-138909ad",
   "displayName": "export_json",
-  "maxRunTime": "3600s",
+  "maxRunTime": "7200s",
   "fuzzTargets": [
     "API_fuzz_test-a4849f77"
   ],
