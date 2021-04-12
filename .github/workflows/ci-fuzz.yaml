@@ -7,8 +7,9 @@ on:
     branches: [ master ]
 
 env:
-  FUZZING_SERVER_ADDRESS: 'grpc-api.code-intelligence.com:443'
-  WEB_APP_ADDRESS: 'https://app.code-intelligence.com'
+  FUZZING_SERVER_ADDRESS: vast.app.code-intelligence.com:6773
+  WEB_APP_ADDRESS:  https://vast.app.code-intelligence.com
+  
 
 jobs:
   fuzz_export_json:
@@ -19,7 +20,7 @@ jobs:
         uses: CodeIntelligenceTesting/github-actions/start-fuzzing@v3
         with:
           ci_fuzz_api_token: ${{ secrets.CI_FUZZ_API_TOKEN }}
-          test_collection: "projects/vast-fuzz-d131834c/campaigns/API_fuzz_test-138909ad"
+          test_collection: "projects/organizations_184eb49349f58d28_vast-fuzz-d131834c/campaigns/API_fuzz_test-138909ad"
           git_reference: ${{ github.sha }}
           fuzzing_server_address: ${{ env.FUZZING_SERVER_ADDRESS }}          
       - id: monitor-fuzzing
