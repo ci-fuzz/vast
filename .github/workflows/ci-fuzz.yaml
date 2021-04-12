@@ -7,8 +7,8 @@ on:
     branches: [ master ]
 
 env:
-  FUZZING_SERVER_ADDRESS: 'https://app.code-intelligence.com:443'
-  WEB_APP_ADDRESS: 'https://app.code-intelligence.com' 
+  FUZZING_SERVER_ADDRESS: 'grpc-api.app.code-intelligence.com:443'
+  WEB_APP_ADDRESS: 'https://app.code-intelligence.com'
 
 jobs:
   fuzz_export_json:
